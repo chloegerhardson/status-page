@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Node Status</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --border: #334155;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --green: #22c55e;
+      --yellow: #eab308;
+      --red: #ef4444;
+      --blue: #3b82f6;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    header p {
+      color: var(--muted);
+      font-size: 0.875rem;
+    }
+    .status-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .status-dot.operational { background: var(--green); box-shadow: 0 0 8px var(--green); }
+    .status-dot.maintenance { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
+    .status-dot.degraded { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
+    .status-dot.outage { background: var(--red); box-shadow: 0 0 8px var(--red); }
+
+    .status-label.operational { color: var(--green); }
+    .status-label.maintenance { color: var(--yellow); }
+    .status-label.degraded { color: var(--yellow); }
+    .status-label.outage { color: var(--red); }
+
+    .status-message {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+    .status-meta {
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .history-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .history-item .status-dot {
+      margin-top: 0.35rem;
+      flex-shrink: 0;
+    }
+    .history-detail {
+      flex: 1;
+    }
+    .history-detail .label {
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-bottom: 0.2rem;
+    }
+    .history-detail .msg {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    .history-detail .time {
+      color: var(--muted);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+    }
+    .empty {
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      color: var(--muted);
+      font-size: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Login Node Status</h1>
+      <p>AICR Cluster</p>
+    </header>
+
+    <div class="status-card">
+      <div class="status-indicator">
+        <span class="status-dot operational"></span>
+        <span class="status-label operational">Operational</span>
+      </div>
+      <div class="status-message">All systems operational</div>
+      
+      <div class="status-meta">Updated <time class="local-time" datetime="2026-05-13T13:18:08-04:00">2026-05-13T13:18:08-04:00</time> by chloe</div>
+    </div>
+
+    <h2>History</h2>
+    
+    <div class="history-list">
+      
+      <div class="history-item">
+        <span class="status-dot outage"></span>
+        <div class="history-detail">
+          <div class="label status-label outage">Service Outage</div>
+          <div class="msg">Nodes are down and unreachable</div>
+          <div class="time"><time class="local-time" datetime="2026-05-13T13:02:07-04:00">2026-05-13T13:02:07-04:00</time> - <time class="local-time" datetime="2026-05-13T13:18:08-04:00">2026-05-13T13:18:08-04:00</time>
+          </div>
+        </div>
+      </div>
+      
+      <div class="history-item">
+        <span class="status-dot operational"></span>
+        <div class="history-detail">
+          <div class="label status-label operational">Operational</div>
+          <div class="msg">All systems operational</div>
+          <div class="time"><time class="local-time" datetime="2026-05-12T16:26:00-04:00">2026-05-12T16:26:00-04:00</time> - <time class="local-time" datetime="2026-05-13T13:02:07-04:00">2026-05-13T13:02:07-04:00</time>
+          </div>
+        </div>
+      </div>
+      
+      <div class="history-item">
+        <span class="status-dot maintenance"></span>
+        <div class="history-detail">
+          <div class="label status-label maintenance">Scheduled Maintenance</div>
+          <div class="msg">Rebooting login0001 for kernel update</div>
+          <div class="time"><time class="local-time" datetime="2026-06-01T06:00:00-04:00">2026-06-01T06:00:00-04:00</time> - <time class="local-time" datetime="2026-05-12T16:26:00-04:00">2026-05-12T16:26:00-04:00</time>
+          </div>
+        </div>
+      </div>
+      
+      <div class="history-item">
+        <span class="status-dot maintenance"></span>
+        <div class="history-detail">
+          <div class="label status-label maintenance">Scheduled Maintenance</div>
+          <div class="msg">Rebooting login0001 for kernel update</div>
+          <div class="time"><time class="local-time" datetime="2026-06-01T06:00:00-04:00">2026-06-01T06:00:00-04:00</time> - <time class="local-time" datetime="2026-05-12T16:20:32-04:00">2026-05-12T16:20:32-04:00</time>
+          </div>
+        </div>
+      </div>
+      
+      <div class="history-item">
+        <span class="status-dot maintenance"></span>
+        <div class="history-detail">
+          <div class="label status-label maintenance">Scheduled Maintenance</div>
+          <div class="msg">Rebooting login0001 for kernel update</div>
+          <div class="time"><time class="local-time" datetime="2026-05-12T18:00:00-04:00">2026-05-12T18:00:00-04:00</time> - <time class="local-time" datetime="2026-05-12T16:19:23-04:00">2026-05-12T16:19:23-04:00</time>
+          </div>
+        </div>
+      </div>
+      
+      <div class="history-item">
+        <span class="status-dot maintenance"></span>
+        <div class="history-detail">
+          <div class="label status-label maintenance">Scheduled Maintenance</div>
+          <div class="msg">Kernel update and reboot on login0001</div>
+          <div class="time"><time class="local-time" datetime="2026-05-01T06:00:00-04:00">2026-05-01T06:00:00-04:00</time> - <time class="local-time" datetime="2026-05-01T07:30:00-04:00">2026-05-01T07:30:00-04:00</time>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <footer>
+      <p>TechSquare &bull; Updated automatically via GitLab CI/CD</p>
+    </footer>
+  </div>
+  <script>
+    document.querySelectorAll("time.local-time").forEach(function(el) {
+      var iso = el.getAttribute("datetime");
+      if (!iso) return;
+      var d = new Date(iso);
+      if (isNaN(d)) return;
+      el.textContent = d.toLocaleDateString(undefined, {
+        year: "numeric", month: "short", day: "numeric"
+      }) + " at " + d.toLocaleTimeString(undefined, {
+        hour: "numeric", minute: "2-digit"
+      });
+    });
+  </script>
+</body>
+</html>

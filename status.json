@@ -1,0 +1,54 @@
+{
+  "current": {
+    "status": "operational",
+    "message": "All systems operational",
+    "start": null,
+    "expected_end": null,
+    "updated_by": "chloe",
+    "updated_at": "2026-05-13T13:18:08-04:00"
+  },
+  "history": [
+    {
+      "status": "outage",
+      "message": "Nodes are down and unreachable",
+      "start": "2026-05-13T13:02:07-04:00",
+      "end": "2026-05-13T13:18:08-04:00",
+      "updated_by": "chloe"
+    },
+    {
+      "status": "operational",
+      "message": "All systems operational",
+      "start": "2026-05-12T16:26:00-04:00",
+      "end": "2026-05-13T13:02:07-04:00",
+      "updated_by": "chloe"
+    },
+    {
+      "status": "maintenance",
+      "message": "Rebooting login0001 for kernel update",
+      "start": "2026-06-01T06:00:00-04:00",
+      "end": "2026-05-12T16:26:00-04:00",
+      "updated_by": "chloe"
+    },
+    {
+      "status": "maintenance",
+      "message": "Rebooting login0001 for kernel update",
+      "start": "2026-06-01T06:00:00-04:00",
+      "end": "2026-05-12T16:20:32-04:00",
+      "updated_by": "chloe"
+    },
+    {
+      "status": "maintenance",
+      "message": "Rebooting login0001 for kernel update",
+      "start": "2026-05-12T18:00:00-04:00",
+      "end": "2026-05-12T16:19:23-04:00",
+      "updated_by": "chloe"
+    },
+    {
+      "status": "maintenance",
+      "message": "Kernel update and reboot on login0001",
+      "start": "2026-05-01T06:00:00-04:00",
+      "end": "2026-05-01T07:30:00-04:00",
+      "updated_by": "chloe"
+    }
+  ]
+}

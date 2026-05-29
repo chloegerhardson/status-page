@@ -1,0 +1,13 @@
+image: python:3.11-slim
+
+pages:
+  stage: deploy
+  before_script:
+    - pip install jinja2
+  script:
+    - STATUS_UPDATED_BY="$GITLAB_USER_NAME" python generate.py
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
