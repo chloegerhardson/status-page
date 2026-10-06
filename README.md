@@ -1,4 +1,4 @@
-# Login Node Status Page
+# Cluster Status Page
 
 A static status page for the AICR Cluster login node, built with Python/Jinja2 and deployed via GitHub Pages.
 
