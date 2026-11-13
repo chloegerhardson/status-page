@@ -3,204 +3,304 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cluster Status</title>
+  <title>AICR status</title>
   <style>
     :root {
-      --bg: #0f172a;
-      --surface: #1e293b;
-      --border: #334155;
-      --text: #e2e8f0;
-      --muted: #94a3b8;
-      --green: #22c55e;
-      --yellow: #eab308;
-      --red: #ef4444;
-      --blue: #3b82f6;
+      --bg: #f3f4f6;
+      --card: #ffffff;
+      --ink: #1c1d1f;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --head: #f8f9fb;
+      --green: #157a45;
+      --amber: #8a5a00;
+      --amber-bg: #fbf6e4;
+      --banner: #f8f1d4;
+      --red: #b42318;
+      --red-bg: #fdecec;
+      --blue: #1d4ed8;
+      --maint: #1e4e8c;
+      --shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { box-sizing: border-box; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
       background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
-    .container {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 2rem 1rem;
-    }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    header, .banner, main { width: min(1080px, calc(100% - 2rem)); margin: 0 auto; }
     header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    header h1 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
-    header p {
-      color: var(--muted);
-      font-size: 0.875rem;
-    }
-    .status-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 0.75rem;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-    .status-indicator {
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      gap: 0.5rem;
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 0.75rem;
-    }
-    .status-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      display: inline-block;
-    }
-    .status-dot.operational { background: var(--green); box-shadow: 0 0 8px var(--green); }
-    .status-dot.maintenance { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
-    .status-dot.degraded { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
-    .status-dot.outage { background: var(--red); box-shadow: 0 0 8px var(--red); }
-
-    .status-label.operational { color: var(--green); }
-    .status-label.maintenance { color: var(--yellow); }
-    .status-label.degraded { color: var(--yellow); }
-    .status-label.outage { color: var(--red); }
-
-    .status-message {
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-bottom: 0.5rem;
-    }
-    .status-meta {
-      color: var(--muted);
-      font-size: 0.8rem;
-    }
-
-    h2 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .history-list {
-      display: flex;
-      flex-direction: column;
       gap: 0.75rem;
+      padding: 1.25rem 0 1rem;
     }
-    .history-item {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 0.5rem;
-      padding: 1rem 1.25rem;
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
+    .mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: #111;
     }
-    .history-item .status-dot {
-      margin-top: 0.35rem;
-      flex-shrink: 0;
-    }
-    .history-detail {
-      flex: 1;
-    }
-    .history-detail .label {
-      font-weight: 500;
+    .brand { font-weight: 700; line-height: 1.1; }
+    .brand span { display: block; }
+    .banner {
+      border-radius: 8px;
+      padding: 0.7rem 1rem;
       font-size: 0.95rem;
-      margin-bottom: 0.2rem;
+      background: #e8f6ee;
+      color: var(--green);
     }
-    .history-detail .msg {
-      color: var(--muted);
-      font-size: 0.85rem;
+    .banner.degraded { background: var(--banner); color: #6b4a08; }
+    .banner.down { background: var(--red-bg); color: var(--red); }
+    .banner.maintenance { background: #e8f0fb; color: var(--maint); }
+    .banner a { margin-left: 0.35rem; }
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 1.25rem;
+      padding: 1rem 0 3rem;
+      align-items: start;
     }
-    .history-detail .time {
-      color: var(--muted);
-      font-size: 0.75rem;
-      margin-top: 0.25rem;
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
     }
-    .empty {
-      color: var(--muted);
-      font-size: 0.9rem;
-      text-align: center;
-      padding: 1rem;
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      text-align: left;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      color: #8b909a;
+      font-weight: 600;
+      background: var(--head);
+      padding: 0.85rem 1.1rem;
     }
-
-    footer {
-      text-align: center;
-      margin-top: 3rem;
+    th:first-child { border-radius: 12px 0 0 0; }
+    th:last-child { border-radius: 0 12px 0 0; }
+    td { padding: 0.95rem 1.1rem; border-top: 1px solid var(--line); vertical-align: top; }
+    .name { font-weight: 650; }
+    .summary { display: block; color: var(--muted); font-size: 0.85rem; margin-top: 0.15rem; }
+    .state { font-weight: 700; }
+    .state.operational { color: var(--green); }
+    .state.degraded { color: var(--amber); }
+    .state.down { color: var(--red); }
+    .state.maintenance { color: var(--maint); }
+    tr.degraded { background: #fffaf0; }
+    tr.down { background: #fff7f7; }
+    tr.maintenance { background: #f5f9ff; }
+    .updates { margin-top: 1.25rem; }
+    .updates h2 { font-size: 1rem; margin: 0; padding: 1rem 1.1rem 0.4rem; }
+    .update {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      padding: 0.9rem 1.1rem;
+      border-top: 1px solid var(--line);
+    }
+    .update strong { font-weight: 650; }
+    .update p { margin: 0.2rem 0 0; color: var(--muted); font-size: 0.85rem; }
+    .tag { font-weight: 650; font-size: 0.92rem; }
+    .tag.investigating, .tag.down { color: var(--amber); }
+    .tag.scheduled { color: var(--blue); }
+    .tag.resolved, .tag.completed { color: var(--green); }
+    .side { display: flex; flex-direction: column; gap: 1rem; }
+    .side h2 { font-size: 1rem; margin: 0 0 0.7rem; }
+    .links { padding: 1rem 1.1rem 1.1rem; }
+    .links a { display: block; margin: 0.35rem 0; }
+    button.as-link {
+      background: none;
+      border: 0;
+      padding: 0;
+      color: var(--blue);
+      font: inherit;
+      cursor: pointer;
+    }
+    button.as-link:hover { text-decoration: underline; }
+    dialog {
+      border: 0;
+      border-radius: 12px;
+      padding: 0;
+      width: min(520px, calc(100% - 2rem));
+      color: var(--ink);
+      box-shadow: 0 20px 48px rgba(16, 24, 40, 0.22);
+    }
+    dialog::backdrop { background: rgba(17, 17, 17, 0.45); }
+    .dialog-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: flex-start;
+      padding: 1.15rem 1.25rem 0;
+    }
+    .dialog-head h2 { margin: 0; font-size: 1.15rem; }
+    .dialog-head p { margin: 0.3rem 0 0; color: var(--muted); font-size: 0.85rem; }
+    .dialog-close {
+      border: 0;
+      background: transparent;
+      font-size: 1.4rem;
+      line-height: 1;
+      cursor: pointer;
       color: var(--muted);
-      font-size: 0.75rem;
+      padding: 0 0.15rem;
+    }
+    .dialog-body { padding: 1rem 1.25rem 1.3rem; display: flex; flex-direction: column; gap: 0.75rem; }
+    .description {
+      background: var(--head);
+      border-radius: 8px;
+      padding: 0.9rem 1rem;
+      line-height: 1.5;
+    }
+    .description time { display: block; color: var(--muted); font-size: 0.8rem; margin-bottom: 0.35rem; }
+    .description p { margin: 0.4rem 0 0; }
+    .schedule-line { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; }
+    @media (max-width: 800px) {
+      main { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Cluster Status</h1>
-      <p>AICR Cluster</p>
-    </header>
-
-    <div class="status-card">
-      <div class="status-indicator">
-        <span class="status-dot {{ current_status }}"></span>
-        <span class="status-label {{ current_status }}">{{ current_status_display }}</span>
+  <header>
+    <div class="mark" aria-hidden="true"></div>
+    <div class="brand"><span>AICR</span><span>status</span></div>
+  </header>
+  <div class="banner {{ banner_state }}">
+    <strong>{{ banner_text }}</strong>
+    {% if incident %}<button type="button" class="as-link" data-open-dialog="update-dialog">Read the update</button>{% endif %}
+  </div>
+  <main>
+    <div>
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>Service</th>
+              <th>Status</th>
+              <th>Where to go</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for service in services %}
+            <tr class="{{ service.state }}">
+              <td><span class="name">{{ service.name }}</span><span class="summary">{{ service.summary }}</span></td>
+              <td class="state {{ service.state }}">{{ service.state_label }}</td>
+              <td>
+                {% if service.link_kind == "incident" %}
+                <button type="button" class="as-link" data-open-dialog="update-dialog">{{ service.link_label }}</button>
+                {% elif service.link_kind == "maintenance" %}
+                <button type="button" class="as-link" data-open-dialog="maintenance-dialog">{{ service.link_label }}</button>
+                {% else %}
+                <a href="{{ service.link_href }}">{{ service.link_label }}</a>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
-      <div class="status-message">{{ current_message }}</div>
-      {% if current_start_iso or current_end_iso %}
-      <div class="status-meta">
-        {%- if current_start_iso %}Starts: <time class="local-time" datetime="{{ current_start_iso }}">{{ current_start_iso }}</time>{% endif %}
-        {%- if current_start_iso and current_end_iso %} | {% endif %}
-        {%- if current_end_iso %}Expected end: <time class="local-time" datetime="{{ current_end_iso }}">{{ current_end_iso }}</time>{% endif %}
-      </div>
-      {% endif %}
-      <div class="status-meta">Updated <time class="local-time" datetime="{{ updated_at_iso }}">{{ updated_at_iso }}</time> by {{ updated_by }}</div>
-    </div>
-
-    <h2>History</h2>
-    {% if history %}
-    <div class="history-list">
-      {% for item in history %}
-      <div class="history-item">
-        <span class="status-dot {{ item.status }}"></span>
-        <div class="history-detail">
-          <div class="label status-label {{ item.status }}">{{ item.status_display }}</div>
-          <div class="msg">{{ item.message }}</div>
-          <div class="time">
-            {%- if item.start_iso %}<time class="local-time" datetime="{{ item.start_iso }}">{{ item.start_iso }}</time>{% endif %}
-            {%- if item.start_iso and item.end_iso %} - {% endif %}
-            {%- if item.end_iso %}<time class="local-time" datetime="{{ item.end_iso }}">{{ item.end_iso }}</time>{% endif %}
+      {% if show_updates %}
+      <section class="card updates" id="updates">
+        <h2>Alerts, maintenance and history</h2>
+        {% if incident %}
+        <article class="update">
+          <div>
+            <strong>{{ incident.title }}</strong>
+            <p>{{ incident.meta }}</p>
           </div>
-        </div>
+          <div class="tag {{ incident.label | lower }}">{{ incident.label }}</div>
+        </article>
+        {% endif %}
+        {% if maintenance %}
+        <article class="update" id="maintenance">
+          <div>
+            <strong>{{ maintenance.title }}</strong>
+            <p>{{ maintenance.meta }}</p>
+          </div>
+          <div class="tag scheduled">{{ maintenance.label }}</div>
+        </article>
+        {% endif %}
+        {% for item in history %}
+        <article class="update">
+          <div>
+            <strong>{{ item.title }}</strong>
+            <p>{{ item.meta }}</p>
+          </div>
+          <div class="tag resolved">{{ item.label }}</div>
+        </article>
+        {% endfor %}
+      </section>
+      {% endif %}
+    </div>
+    <aside class="side">
+      <div class="card links">
+        <h2>Quick links</h2>
+        <a href="{{ documentation }}">Documentation</a>
+        <a href="{{ help_link }}">Request help</a>
+        {% if maintenance_schedule %}
+        <button type="button" class="as-link" data-open-dialog="maintenance-dialog">Maintenance schedule</button>
+        {% endif %}
+      </div>
+    </aside>
+  </main>
+  {% if incident %}
+  <dialog id="update-dialog" aria-labelledby="update-title">
+    <div class="dialog-head">
+      <div>
+        <h2 id="update-title">{{ incident.title }}</h2>
+        <p>{{ incident.meta }}</p>
+      </div>
+      <form method="dialog">
+        <button class="dialog-close" aria-label="Close">×</button>
+      </form>
+    </div>
+    <div class="dialog-body">
+      {% for entry in incident.entries %}
+      <div class="description">
+        {% if entry.when %}<time>{{ entry.when }}</time>{% endif %}
+        <p>{{ entry.text }}</p>
       </div>
       {% endfor %}
     </div>
-    {% else %}
-    <div class="empty">No previous events.</div>
-    {% endif %}
-
-    <footer>
-      <p>TechSquare &bull; Updated automatically via GitHub Actions</p>
-    </footer>
-  </div>
+  </dialog>
+  {% endif %}
+  {% if maintenance_schedule %}
+  <dialog id="maintenance-dialog" aria-labelledby="maintenance-title">
+    <div class="dialog-head">
+      <div>
+        <h2 id="maintenance-title">Maintenance schedule</h2>
+        <p>The next window, and the two before it.</p>
+      </div>
+      <form method="dialog">
+        <button class="dialog-close" aria-label="Close">×</button>
+      </form>
+    </div>
+    <div class="dialog-body">
+      {% for item in maintenance_schedule %}
+      <div class="description">
+        <div class="schedule-line">
+          <strong>{{ item.title }}</strong>
+          <span class="tag {{ item.label | lower }}">{{ item.label }}</span>
+        </div>
+        <time>{{ item.when }}</time>
+        {% if item.text %}<p>{{ item.text }}</p>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </dialog>
+  {% endif %}
   <script>
-    document.querySelectorAll("time.local-time").forEach(function(el) {
-      var iso = el.getAttribute("datetime");
-      if (!iso) return;
-      var d = new Date(iso);
-      if (isNaN(d)) return;
-      el.textContent = d.toLocaleDateString(undefined, {
-        year: "numeric", month: "short", day: "numeric"
-      }) + " at " + d.toLocaleTimeString(undefined, {
-        hour: "numeric", minute: "2-digit"
+    document.querySelectorAll("[data-open-dialog]").forEach(function(button) {
+      button.addEventListener("click", function() {
+        document.getElementById(button.getAttribute("data-open-dialog")).showModal();
+      });
+    });
+    document.querySelectorAll("dialog").forEach(function(dialog) {
+      dialog.addEventListener("click", function(event) {
+        if (event.target === dialog) dialog.close();
       });
     });
   </script>

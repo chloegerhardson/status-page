@@ -1,54 +1,117 @@
 {
-  "current": {
-    "status": "operational",
-    "message": "All systems operational",
-    "start": null,
-    "expected_end": null,
-    "updated_by": "chloe",
-    "updated_at": "2026-05-13T13:18:08-04:00"
+  "services": [
+    {
+      "id": "storage",
+      "name": "Storage",
+      "summary": "Home, project, scratch",
+      "state": "operational",
+      "link": {
+        "label": "Storage docs",
+        "href": "https://docs.aicr.ai/"
+      }
+    },
+    {
+      "id": "login",
+      "name": "Login",
+      "summary": "SSH login nodes",
+      "state": "operational",
+      "link": {
+        "label": "How to connect",
+        "href": "https://docs.aicr.ai/connecting/ssh"
+      }
+    },
+    {
+      "id": "ondemand",
+      "name": "Open OnDemand",
+      "summary": "Web portal, interactive apps",
+      "state": "operational",
+      "link": {
+        "label": "Open OnDemand",
+        "href": "https://ood.aicr.ai/"
+      }
+    },
+    {
+      "id": "slurm",
+      "name": "Slurm",
+      "summary": "Job scheduler",
+      "state": "degraded",
+      "link": {
+        "label": "Job scheduling",
+        "href": "https://docs.aicr.ai/"
+      }
+    },
+    {
+      "id": "rtx",
+      "name": "RTX nodes",
+      "summary": "GPU partition",
+      "state": "operational",
+      "link": {
+        "label": "GPU guide",
+        "href": "https://docs.aicr.ai/"
+      }
+    },
+    {
+      "id": "b200",
+      "name": "B200 nodes",
+      "summary": "GPU partition",
+      "state": "operational",
+      "link": {
+        "label": "GPU guide",
+        "href": "https://docs.aicr.ai/"
+      }
+    }
+  ],
+  "incident": {
+    "title": "Slow job scheduling",
+    "services": [
+      "slurm"
+    ],
+    "entries": [
+      {
+        "at": "2026-11-13T10:39:10-05:00",
+        "text": "Job scheduling is slower than normal. We are investigating."
+      },
+      {
+        "at": "2026-11-13T10:15:00-05:00",
+        "text": "Job scheduling is slower than normal. We are investigating."
+      }
+    ]
   },
+  "maintenance": [
+    {
+      "title": "September maintenance",
+      "start": "2026-09-15T05:00:00-04:00",
+      "end": "2026-09-16T05:00:00-04:00",
+      "services": ["storage", "login", "ondemand", "slurm", "rtx", "b200"],
+      "text": "The cluster will be unavailable while the systems team performs maintenance."
+    },
+    {
+      "title": "October maintenance",
+      "start": "2026-10-20T05:00:00-04:00",
+      "end": "2026-10-21T05:00:00-04:00",
+      "services": ["storage", "login", "ondemand", "slurm", "rtx", "b200"],
+      "text": "The cluster will be unavailable while the systems team performs maintenance."
+    },
+    {
+      "title": "November maintenance",
+      "start": "2026-11-17T05:00:00-05:00",
+      "end": "2026-11-17T17:00:00-05:00",
+      "services": ["storage", "login", "ondemand", "slurm", "rtx", "b200"],
+      "text": "The cluster will be unavailable while the systems team performs maintenance."
+    }
+  ],
   "history": [
     {
-      "status": "outage",
-      "message": "Nodes are down and unreachable",
-      "start": "2026-05-13T13:02:07-04:00",
-      "end": "2026-05-13T13:18:08-04:00",
-      "updated_by": "chloe"
-    },
-    {
-      "status": "operational",
-      "message": "All systems operational",
-      "start": "2026-05-12T16:26:00-04:00",
-      "end": "2026-05-13T13:02:07-04:00",
-      "updated_by": "chloe"
-    },
-    {
-      "status": "maintenance",
-      "message": "Rebooting login0001 for kernel update",
-      "start": "2026-06-01T06:00:00-04:00",
-      "end": "2026-05-12T16:26:00-04:00",
-      "updated_by": "chloe"
-    },
-    {
-      "status": "maintenance",
-      "message": "Rebooting login0001 for kernel update",
-      "start": "2026-06-01T06:00:00-04:00",
-      "end": "2026-05-12T16:20:32-04:00",
-      "updated_by": "chloe"
-    },
-    {
-      "status": "maintenance",
-      "message": "Rebooting login0001 for kernel update",
-      "start": "2026-05-12T18:00:00-04:00",
-      "end": "2026-05-12T16:19:23-04:00",
-      "updated_by": "chloe"
-    },
-    {
-      "status": "maintenance",
-      "message": "Kernel update and reboot on login0001",
-      "start": "2026-05-01T06:00:00-04:00",
-      "end": "2026-05-01T07:30:00-04:00",
-      "updated_by": "chloe"
+      "title": "Login nodes unreachable",
+      "started": "2026-11-10T14:10:00-05:00",
+      "ended": "2026-11-10T16:40:00-05:00",
+      "services": [
+        "login"
+      ]
     }
-  ]
+  ],
+  "links": {
+    "documentation": "https://docs.aicr.ai/",
+    "help": "https://docs.aicr.ai/getting-help/"
+  }
 }
